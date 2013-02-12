@@ -21,22 +21,12 @@
         return Math.random().toString().substring(2);
     };
 
-    BGP.confirm = function(options) {
-        if (typeof options == 'undefined') options = {};
+    BGP.popup = function(options, defaults) {
+        options = options || {};
+        defaults = defaults || {};
 
         var id = BGP.UID(),
             tpl = BGP.tpl,
-
-        defaults = {
-            msg: '',
-            confirm_text: 'Yes',
-            deny_text: 'No',
-            title: 'Confirm',
-            closeable: true,
-            show_buttons: true,
-            confirm: function() {},
-            deny: function() {}
-        };
 
         options = $.extend({}, defaults, options);
 
@@ -67,6 +57,9 @@
         if (!options.show_buttons)
             $modal.find('.modal-footer button').hide();
 
+        if (options.alert)
+            $modal.find('.deny').hide();
+
         // add event handlers
         $modal.find('.confirm').click(function() {
             options.confirm();
@@ -81,6 +74,34 @@
         // cleanup
         $modal.on('hide', function() {
             $(this).remove();
+        });
+    };
+
+    BGP.confirm = function(options) {
+        this.popup(options, {
+            msg: '',
+            confirm_text: 'Yes',
+            deny_text: 'No',
+            title: 'Confirm',
+            closeable: true,
+            show_buttons: true,
+            alert: false,
+            confirm: function() {},
+            deny: function() {}
+        });
+    };
+
+    BGP.alert = function(options) {
+        this.popup(options, {
+            msg: '',
+            confirm_text: 'Ok',
+            deny_text: '',
+            title: 'Alert',
+            closeable: true,
+            show_buttons: true,
+            alert: true,
+            confirm: function() {},
+            deny: function() {}
         });
     };
 
