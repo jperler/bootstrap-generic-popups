@@ -75,10 +75,12 @@
         $modal.on('hide', function() {
             $(this).remove();
         });
+
+        return $modal;
     };
 
     BGP.confirm = function(options) {
-        this.popup(options, {
+        return this.popup(options, {
             msg: '',
             confirm_text: 'Yes',
             deny_text: 'No',
@@ -92,7 +94,7 @@
     };
 
     BGP.alert = function(options) {
-        this.popup(options, {
+        return this.popup(options, {
             msg: '',
             confirm_text: 'Ok',
             deny_text: '',
